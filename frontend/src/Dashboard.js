@@ -16,8 +16,8 @@ const fetchData = async () => {
   try {
     const token = localStorage.getItem('token');
     const config = { headers: { Authorization: `Bearer ${token}` }};
-    const logsRes = await axios.get('http://localhost:5000/api/logs', config);
-    const statsRes = await axios.get('http://localhost:5000/api/stats', config);
+    const logsRes = await axios.get('https://siem-dashboard-backend.onrender.com/api/logs', config);
+    const statsRes = await axios.get('https://siem-dashboard-backend.onrender.com/api/stats', config);
     setLogs(logsRes.data);
     setStats(statsRes.data);
   } catch (err) {
