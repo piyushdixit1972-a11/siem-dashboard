@@ -1,10 +1,9 @@
-from flask import Flask, request, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-import bcrypt
+from flask import request, jsonify
+from flask_jwt_extended import JWTManager, create_access_token
 
-# Users dictionary (database vagar)
+# Simple users without bcrypt
 users = {
-    "admin": bcrypt.hashpw("admin123".encode(), bcrypt.gensalt())
+    "admin": "admin123"
 }
 
 def init_auth(app):
@@ -16,9 +15,8 @@ def login(request):
     username = request.json.get("username")
     password = request.json.get("password")
     
-    if username in users:
-        if bcrypt.checkpw(password.encode(), users[username]):
-            token = create_access_token(identity=username)
-            return jsonify({"token": token}), 200
+    if username in users and users[username] == password:
+        token = create_access_token(identity=username)
+        return jsonify({"token": token}), 200
     
     return jsonify({"error": "Invalid credentials"}), 401
